@@ -6,10 +6,9 @@ You can only [Use the source code](#usesource) right now
 
 # Use source
 1. Download python [here](https://www.python.org/downloads/)
-2. Dowload the source code by pressing code and then download zip.
-3. Extract main.py
-4. Move the main.py to the game files (So the folder where the .exe is)
-5. Run it by doing `python main.py`. You should see an assets folder
+2. Dowload the source code by pressing main.py and then the download icon in the top left of the code.
+3. Move the main.py to the game files (So the folder where the .exe is)
+4. Run it by doing `python main.py`. You should see an assets folder
 ## Done!
 
 
