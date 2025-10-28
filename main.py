@@ -6,6 +6,7 @@ import json
 
 import sys, os, struct, json
 
+
 SIGS = {
     b'\x89PNG\r\n\x1a\n': '.png',
     b'\xFF\xD8\xFF': '.jpg',
@@ -324,90 +325,6 @@ def main():
         print("Unknown option", sys.argv[1])
         sys.exit(1)
 
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
-
-
-class TexturePackBrowser(ctk.CTk):
-    def __init__(self, base_path="."):
-        super().__init__()
-        self.title("Texture Pack Browser")
-        self.geometry("600x400")
-
-        self.base_path = base_path
-
-        # Sidebar
-        self.sidebar = ctk.CTkFrame(self, width=200)
-        self.sidebar.pack(side="left", fill="y", padx=5, pady=5)
-
-        self.sidebar_label = ctk.CTkLabel(
-            self.sidebar, text="4-Letter Folders", font=ctk.CTkFont(size=15, weight="bold")
-        )
-        self.sidebar_label.pack(pady=(10, 5))
-
-        # Folder list
-        self.folder_listbox = ctk.CTkTextbox(self.sidebar, width=180, height=300)
-        self.folder_listbox.pack(padx=5, pady=5)
-        self.folder_listbox.configure(state="disabled")
-
-        # Bind double-click
-        self.folder_listbox.bind("<Double-1>", self.on_double_click)
-
-        # Load folders
-        self.load_folders()
-
-    def load_folders(self):
-        folders = [
-            f
-            for f in os.listdir(self.base_path)
-            if os.path.isdir(os.path.join(self.base_path, f)) and len(f) == 4
-        ]
-
-        self.folder_listbox.configure(state="normal")
-        self.folder_listbox.delete("1.0", "end")
-
-        for folder in folders:
-            self.folder_listbox.insert("end", folder + "\n")
-
-        self.folder_listbox.configure(state="disabled")
-
-    def on_double_click(self, event):
-        index = self.folder_listbox.index("@%s,%s" % (event.x, event.y))
-        folder_name = self.folder_listbox.get(f"{index} linestart", f"{index} lineend").strip()
-        if folder_name:
-            self.open_confirm_window(folder_name)
-
-    def open_confirm_window(self, folder_name):
-        popup = ctk.CTkToplevel(self)
-        popup.title("Confirm Action")
-        popup.geometry("300x150")
-        popup.grab_set()  # focus popup
-
-        label = ctk.CTkLabel(
-            popup,
-            text=f"Do you want to patch the .exe now?\n\nSelected pack: {folder_name}",
-            justify="center",
-        )
-        label.pack(pady=20)
-
-        # Button frame
-        button_frame = ctk.CTkFrame(popup)
-        button_frame.pack(pady=10)
-
-        def yes_action():
-            popup.destroy()
-            messagebox.showinfo("Patching", f"Patching .exe with texture pack '{folder_name}'")
-            # TODO: call your patching function here
-
-        def no_action():
-            popup.destroy()
-            messagebox.showinfo("Skipped", "Patch cancelled.")
-
-        yes_button = ctk.CTkButton(button_frame, text="Yes", width=100, command=yes_action)
-        yes_button.grid(row=0, column=0, padx=10)
-
-        no_button = ctk.CTkButton(button_frame, text="No", width=100, command=no_action)
-        no_button.grid(row=0, column=1, padx=10)
 
 
 if __name__ == "__main__":
