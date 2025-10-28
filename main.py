@@ -6,9 +6,6 @@ import json
 
 import sys, os, struct, json
 
-import customtkinter as ctk
-from tkinter import messagebox
-
 SIGS = {
     b'\x89PNG\r\n\x1a\n': '.png',
     b'\xFF\xD8\xFF': '.jpg',
